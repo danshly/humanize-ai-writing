@@ -1,0 +1,13 @@
+.git
+.github
+node_modules
+.next
+out
+*.md
+LICENSE
+.env
+.env.*
+Dockerfile
+.dockerignore
+docker-compose.yml
+scripts/

@@ -1,0 +1,7 @@
+services:
+  web:
+    image: ghcr.io/danshly/humanize-ai-writing:latest
+    build: .
+    ports:
+      - "8083:80"
+    restart: unless-stopped
