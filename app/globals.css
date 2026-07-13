@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Semantic color tokens — the whole palette lives here. */
+:root {
+  --background: #faf8f5;
+  --foreground: #1c1917;
+  --muted: #57534e;
+  --faint: #a8a29e;
+  --surface: #ffffff;
+  --edge: #e7e5e4;
+  --accent: #b45309;
+  color-scheme: light;
+}
+
+.dark {
+  --background: #0d0c0b;
+  --foreground: #e7e5e4;
+  --muted: #a8a29e;
+  --faint: #6b6560;
+  --surface: #171412;
+  --edge: #2b2724;
+  --accent: #fbbf24;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-faint: var(--faint);
+  --color-surface: var(--surface);
+  --color-edge: var(--edge);
+  --color-accent: var(--accent);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), ui-serif, Georgia, serif;
+  --font-hand: var(--font-caveat), "Segoe Print", "Comic Sans MS", cursive;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html,
+body {
+  /* Margin notes sit outside the reading column; never let them cause a
+     horizontal scrollbar. */
+  overflow-x: clip;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 25%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- Human Mode margin notes ------------------------------------------- */
+/* Toggled by setting `data-human` on <html> (see components/HumanMode.tsx).
+   Pure CSS visibility keeps the notes server-rendered and JS-light. */
+.margin-note {
+  font-family: var(--font-hand);
+  color: var(--accent);
+  opacity: 0;
+  transform: rotate(var(--note-rotate, -3deg)) translateY(8px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+html[data-human] .margin-note {
+  opacity: 1;
+  transform: rotate(var(--note-rotate, -3deg)) translateY(0);
+}
+
+/* --- Hero scroll arrow --------------------------------------------------- */
+@keyframes drift-down {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}
+
+.scroll-arrow {
+  animation: drift-down 2.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-arrow {
+    animation: none;
+  }
+
+  .margin-note {
+    transition: none;
+  }
+}
