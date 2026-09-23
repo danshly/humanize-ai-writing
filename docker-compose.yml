@@ -3,5 +3,7 @@ services:
     image: ghcr.io/danshly/humanize-ai-writing:latest
     build: .
     ports:
-      - "8083:80"
+      # Loopback only: traffic must come through the host nginx (Cloudflare
+      # origin pull + rate limiting), never hit the container directly.
+      - "127.0.0.1:8083:80"
     restart: unless-stopped
