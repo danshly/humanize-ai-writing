@@ -1,0 +1,7 @@
+# Production settings for the homeops Komodo stack, layered over docker-compose.yml.
+# Native nginx on the host terminates TLS and proxies to this loopback port.
+services:
+  web:
+    build: !reset null
+    ports: !override
+      - "127.0.0.1:8083:80"
